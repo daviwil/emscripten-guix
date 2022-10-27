@@ -5769,10 +5769,6 @@ var ASM_CONSTS = {
       GLFW.active = null;
     }
 
-  function _glfwWindowHint(target, hint) {
-      GLFW.hints[target] = hint;
-    }
-
 
 
 
@@ -6058,8 +6054,7 @@ var asmLibraryArg = {
   "glfwSetErrorCallback": _glfwSetErrorCallback,
   "glfwSwapBuffers": _glfwSwapBuffers,
   "glfwSwapInterval": _glfwSwapInterval,
-  "glfwTerminate": _glfwTerminate,
-  "glfwWindowHint": _glfwWindowHint
+  "glfwTerminate": _glfwTerminate
 };
 var asm = createWasm();
 /** @type {function(...*):?} */
