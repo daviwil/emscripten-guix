@@ -26,6 +26,13 @@ jobs:
           ./emsdk install latest
           ./emsdk activate latest
 
+      - name: Cache emsdk
+        id: cache-emsdk
+        uses: actions/cache@v3
+        with:
+          path: emsdk
+          key: ${{ runner.os }}-emsdk
+
       - name: Build the site
         run: ./build.sh
 
