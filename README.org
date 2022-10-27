@@ -6,7 +6,9 @@ Since the =emsdk= includes a bunch of pre-compiled binaries, we need to use =gui
 
 Here's how you can do that!
 
-* Installing Emscripten with Guix Shell
+You can also [[https://daviwil.com/emscripten-guix/][see a demo]] of the program this repo builds.
+
+* Installing Emscripten in Guix Shell
 
 This part is only necessary if you want to run Emscripten in Guix Shell.  First of all, make sure you've run =guix pull= to ensure you have the latest Guix!  Then, clone this repository and execute the following command in the repo folder:
 
