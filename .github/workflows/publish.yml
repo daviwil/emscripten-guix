@@ -13,11 +13,8 @@ jobs:
         uses: actions/checkout@v1
 
       # Seems there is a temporary issue installing Guix via this action.
-      # - name: Install Guix
-      #   uses: PromyLOPh/guix-install-action@v1
-
-      # - name: Build the site
-      #   run: guix shell --container --emulate-fhs --network -m manifest.scm -- ./build.sh
+      - name: Install Guix
+        uses: PromyLOPh/guix-install-action@v1
 
       - name: Cache emsdk
         id: cache-emsdk
@@ -32,6 +29,9 @@ jobs:
 
       - name: Build the site
         run: ./build.sh
+
+      # - name: Build the site
+      #   run: guix shell --container --emulate-fhs --network -m manifest.scm -- ./build.sh
 
       - name: Publish generated content to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.1.4
