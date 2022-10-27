@@ -10,19 +10,12 @@ mkdir -p out
 # pre-compiled applications.  Fix that by using the value of `LIBRARY_PATH`.
 export LD_LIBRARY_PATH=$LIBRARY_PATH
 
-# Since Guix installs Python 3 as `python3`, set `EMSDK_PYTHON` to reflect the
-# correct command name.
-export EMSDK_PYTHON=python3
-
 # Pull in the emsdk environment variables by running `emsdk_env.sh`.  We enter
 # the directory so that the script can be sourced correctly in CI servers with
 # weird shell configurations (I'm looking at you, Ubuntu).
 cd emsdk
 . ./emsdk_env.sh
 cd ..
-
-# Set EMSDK_PYTHON again because `emsdk_env.sh` clears it for some reason...
-export EMSDK_PYTHON=python3
 
 # Activate the latest version of the SDK (might be unnecessary after initial setup)
 emsdk activate latest

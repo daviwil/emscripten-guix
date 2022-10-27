@@ -28,11 +28,7 @@ jobs:
 
       - name: Install emsdk
         if: steps.cache-emsdk.outputs.cache-hit != 'true'
-        run: |
-          git clone https://github.com/emscripten-core/emsdk.git
-          cd emsdk
-          ./emsdk install latest
-          ./emsdk activate latest
+        run: ./install.sh
 
       - name: Build the site
         run: ./build.sh
