@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# NOTE: This script must be executed from the repository root.
+
 # Ensure the output path exists
 mkdir -p out
 
