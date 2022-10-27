@@ -18,11 +18,11 @@ void random_color(float *r, float *g, float *b) {
 
 void render_loop(void *arg) {
   GLFWwindow *window = (GLFWwindow *)arg;
-  float ratio;
-  int width, height;
 
+  // Set the viewport to the current framebuffer size
+  int width, height;
   glfwGetFramebufferSize(window, &width, &height);
-  ratio = width / (float)height;
+  glViewport(0, 0, width, height);
 
   // Randomize the clear color
   if (glfwGetTime() - color_timer > 1.f) {
@@ -31,10 +31,11 @@ void render_loop(void *arg) {
     color_timer = glfwGetTime();
   }
 
-  glViewport(0, 0, width, height);
+  // Clear the screen with the current color
   glClearColor(r, g, b, 1.f);
   glClear(GL_COLOR_BUFFER_BIT);
 
+  // Flip the render buffers
   glfwSwapBuffers(window);
   glfwPollEvents();
 }
@@ -46,30 +47,34 @@ int main() {
   fgets(contents, 512, fp);
   printf("File contents: %s", contents);
 
+  // Initialize the version of GLFW provided by Emscripten
   glfwSetErrorCallback(error_callback);
-
   if (!glfwInit()) {
     printf("Initialization failed!\n");
   }
 
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-
-  GLFWwindow *window = glfwCreateWindow(640, 480, "My Title", NULL, NULL);
+  // Create the "window" which is ultimately just a canvas on the page
+  GLFWwindow *window =
+      glfwCreateWindow(640, 480, "Emscripten Example", NULL, NULL);
   if (!window) {
     // Window or OpenGL context creation failed
   }
 
+  // Set up the OpenGL rendering context
   glfwMakeContextCurrent(window);
   glfwSwapInterval(1);
 
-  printf("Starting render loop!\n");
-
+  // Initialize the color timer before we use it in `render_loop`
   color_timer = glfwGetTime();
 
+  // Set the main loop function which will be invoked by JavaScript each frame.
+  // This is needed because JavaScript is a single-threaded event loop so we
+  // have to let it drive the invocation of our render function, otherwise we'd
+  // block the browser tab's main thread.
+  printf("Starting render loop!\n");
   emscripten_set_main_loop_arg(render_loop, window, 0, 1);
 
-  printf("Exiting!\n");
+  // We never really hit this point :)
 
   glfwTerminate();
 
