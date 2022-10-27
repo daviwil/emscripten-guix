@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Ensure the output path exists
+mkdir -p out
+
 # For some reason, `guix shell` isn't setting `LD_LIBRARY_PATH` correctly.
 # Thus, dependencies installed in the container don't get picked up correctly by
 # pre-compiled applications.  Fix that by using the value of `LIBRARY_PATH`.
