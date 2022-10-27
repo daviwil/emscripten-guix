@@ -10,7 +10,7 @@ export LD_LIBRARY_PATH=$LIBRARY_PATH
 export EMSDK_PYTHON=python3
 
 # Pull in the emsdk environment variables
-source ./emsdk/emsdk_env.sh
+. ./emsdk/emsdk_env.sh
 
 # Set EMSDK_PYTHON again because `emsdk_env.sh` clears it for some reason...
 export EMSDK_PYTHON=python3
