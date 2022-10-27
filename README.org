@@ -1,0 +1,61 @@
+#+title: Using Emscripten on Guix
+
+[[https://emscripten.org/index.html][Emscripten]] is a compiler toolchain that enables you to build native C/C++ applications (and more) to run in the browser via WebAssembly.
+
+Since the =emsdk= includes a bunch of pre-compiled binaries, we need to use =guix shell= with the new =--enable-fhs= parameter to run it locally without having to build it from scratch.
+
+Here's how you can do that!
+
+* Installing Emscripten with Guix Shell
+
+This part is only necessary if you want to run Emscripten in Guix Shell.  First of all, make sure you've run =guix pull= to ensure you have the latest Guix!  Then, clone this repository and execute the following command in the repo folder:
+
+#+begin_src sh
+
+  guix shell --container --emulate-fhs --network -m manifest.scm -- ./install.sh
+
+#+end_src
+
+The [[./manifest.scm][manifest.scm]] file will give you a picture of the required dependencies for running Emscripten's SDK distribution in Guix.
+
+* Installing Emscripten Manually
+
+The [[https://emscripten.org/docs/getting_started/downloads.html][Emscripten documentation]] explains this better than I can, but to get started quickly, make sure you have *Python 3* installed and then follow these steps.
+
+*IMPORTANT:* If you're doing this manually in =guix shell= you will *first* need to set the =SSL_CERT_FILE= environment variable so that the =emsdk= script can download files correctly:
+
+#+begin_src sh
+
+  export SSL_CERT_FILE="$(python3 -m certifi)"
+
+#+end_src
+
+Now, run the following commands in your shell:
+
+#+begin_src sh
+
+  # Clone the emsdk to ./emsdk and install it
+  git clone https://github.com/emscripten-core/emsdk.git
+  cd emsdk
+  ./emsdk install latest
+  ./emsdk activate latest
+  . ./emsdk_env.sh
+
+  # Go back to your repository root
+  cd ..
+
+#+end_src
+
+Emscripten SDK should now be installed in the =./emsdk= subfolder.
+
+* Building the Code
+
+Check out the contents of [[./build.sh][build.sh]] to see how to use =emcc= to build the application and host it locally for testing.
+
+Run it inside the container environment to give it a try:
+
+#+begin_src sh
+
+  guix shell --container --emulate-fhs --network -m manifest.scm -- ./install.sh
+
+#+end_src
