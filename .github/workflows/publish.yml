@@ -19,19 +19,20 @@ jobs:
       # - name: Build the site
       #   run: guix shell --container --emulate-fhs --network -m manifest.scm -- ./build.sh
 
-      - name: Install emsdk
-        run: |
-          git clone https://github.com/emscripten-core/emsdk.git
-          cd emsdk
-          ./emsdk install latest
-          ./emsdk activate latest
-
       - name: Cache emsdk
         id: cache-emsdk
         uses: actions/cache@v3
         with:
           path: emsdk
           key: ${{ runner.os }}-emsdk
+
+      - name: Install emsdk
+        if: steps.cache-emsdk.outputs.cache-hit != 'true'
+        run: |
+          git clone https://github.com/emscripten-core/emsdk.git
+          cd emsdk
+          ./emsdk install latest
+          ./emsdk activate latest
 
       - name: Build the site
         run: ./build.sh
