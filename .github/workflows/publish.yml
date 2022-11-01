@@ -27,11 +27,11 @@ jobs:
         if: steps.cache-emsdk.outputs.cache-hit != 'true'
         run: ./install.sh
 
-      - name: Build the site
-        run: ./build.sh
-
       # - name: Build the site
-      #   run: guix shell --container --emulate-fhs --network -m manifest.scm -- ./build.sh
+      #   run: ./build.sh
+
+      - name: Build the site
+        run: guix shell --container --emulate-fhs --network -m manifest.scm -- ./build.sh
 
       - name: Publish generated content to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.1.4
